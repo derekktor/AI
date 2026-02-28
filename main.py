@@ -2,7 +2,7 @@ from models.room import Room
 from models.cleaner import Cleaner, Actions
 
 
-def main():
+def play():
     env = Room(3, 5)
     c = Cleaner(env)
     while True:
@@ -15,6 +15,11 @@ def main():
             c.act(Actions.LEFT)
         elif move == "d":
             c.act(Actions.RIGHT)
+
+
+def main():
+    env = Room(3, 5)
+    env.print()
 
 
 # c = Cleaner()

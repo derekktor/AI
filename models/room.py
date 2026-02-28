@@ -1,11 +1,20 @@
 from enum import Enum
 import random
 
+sep = "\t"
+
 
 class CellState(Enum):
     CLEAN = 0
     DIRTY = 1
-    VACUUM = 2
+    EMPTY = 2
+    VACUUM = 3
+
+
+class Cell:
+    def __init__(self) -> None:
+        self.vacuum = CellState.EMPTY
+        self.state = CellState.CLEAN
 
 
 class Room:
@@ -13,33 +22,41 @@ class Room:
         self.rows = r
         self.cols = c
 
-        self.cells = [[CellState.CLEAN for _ in range(c)] for _ in range(r)]
+        self.cells = [[Cell() for _ in range(c)] for _ in range(r)]
 
         # random dirty cell
-        dirtyCell = (random.randint(1, self.rows - 1), random.randint(1, self.cols - 1))
+        randX = random.randint(1, self.rows - 1)
+        randY = random.randint(1, self.cols - 1)
 
-        self.cells[dirtyCell[0]][dirtyCell[1]] = CellState.DIRTY
+        self.cells[randX][randY].state = CellState.DIRTY
 
     def print(self):
         print("Displaying room...")
 
         # header row
-        print("  ", end="| ")
+        print("  ", end=f"|{sep}")
         for j in range(self.cols):
-            print(j, end=" ")
+            print(j, end=sep)
         print()
 
-        print("--", "--" * self.cols, sep="-")
+        print("--", "---------" * self.cols, sep="-")
 
         for i in range(self.rows):
-            print(f"{i}", end=" | ")
+            print(f"{i}", end=f" |{sep}")
             for j in range(self.cols):
-                if self.cells[i][j] == CellState.CLEAN:
-                    print("0", end=" ")
-                elif self.cells[i][j] == CellState.DIRTY:
-                    print("1", end=" ")
-                elif self.cells[i][j] == CellState.VACUUM:
-                    print("2", end=" ")
+                a = "["
+                if self.cells[i][j].vacuum == CellState.EMPTY:
+                    a += "_|"
+                elif self.cells[i][j].vacuum == CellState.VACUUM:
+                    a += "V|"
+
+                if self.cells[i][j].state == CellState.CLEAN:
+                    a += "0"
+                elif self.cells[i][j].state == CellState.DIRTY:
+                    a += "1"
+
+                a += "]"
+                print(a, end=sep)
 
             print()
 
