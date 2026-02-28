@@ -12,20 +12,22 @@ class Actions(Enum):
 
 class Cleaner:
     def __init__(self, room: Room, position=(0, 0), battery=100):
+        print("Cleaner added...")
         self.position = position
         self.battery = battery
         self.room = room
 
         # update room by adding cleaner to the room
-        self.room.set(self.position, CellState.VACUUM)
+        self.room.toggleOccupying(self.position)
 
     def log(self):
         print(f"Vacuum({self.position}, {self.battery}%)")
         self.room.print()
         print()
 
-    def act(self, action):
+    def move(self, action):
         x, y = self.position
+        self.room.toggleOccupying((x, y))
 
         if action == Actions.UP:
             print("Moving up...")
@@ -47,17 +49,25 @@ class Cleaner:
             if self.position[1] < self.room.cols - 1:
                 self.battery -= 5
                 self.position = (x, y + 1)
-        elif action == Actions.SUCK:
-            print("Sucking...")
-            if self.room.get(self.position) == CellState.DIRTY:
-                self.battery -= 10
-                self.room.set(self.position, CellState.CLEAN)
 
-        self.room.set((x, y), CellState.CLEAN)
-        self.room.set(self.position, CellState.VACUUM)
+        x, y = self.position
+        self.room.toggleOccupying((x, y))
+
+    def suck(self, position):
+        print("Sucking...")
+        if self.room.getState(self.position) == CellState.DIRTY:
+            self.battery -= 10
+            self.room.setState(self.position, CellState.CLEAN)
+
+    def act(self, action):
+        x, y = self.position
+
+        self.move(action)
+
+        # if action == Actions.SUCK:
+        #     self.suck((x, y))
 
         self.log()
 
     def recharge(self):
-        print("Charging...")
-        self.battery = 100
+        pass

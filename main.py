@@ -2,9 +2,7 @@ from models.room import Room
 from models.cleaner import Cleaner, Actions
 
 
-def play():
-    env = Room(3, 5)
-    c = Cleaner(env)
+def play(c):
     while True:
         move = input("Move:")
         if move == "w":
@@ -18,8 +16,11 @@ def play():
 
 
 def main():
-    env = Room(3, 5)
-    env.print()
+    room = Room(5, 5)
+    c = Cleaner(room)
+    room.print()
+
+    play(c)
 
 
 # c = Cleaner()
