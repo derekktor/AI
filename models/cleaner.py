@@ -53,19 +53,17 @@ class Cleaner:
         x, y = self.position
         self.room.toggleOccupying((x, y))
 
-    def suck(self, position):
+    def suck(self):
         print("Sucking...")
         if self.room.getState(self.position) == CellState.DIRTY:
             self.battery -= 10
             self.room.setState(self.position, CellState.CLEAN)
 
     def act(self, action):
-        x, y = self.position
-
         self.move(action)
 
-        # if action == Actions.SUCK:
-        #     self.suck((x, y))
+        if action == Actions.SUCK:
+            self.suck()
 
         self.log()
 

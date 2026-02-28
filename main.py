@@ -13,6 +13,8 @@ def play(c):
             c.act(Actions.LEFT)
         elif move == "d":
             c.act(Actions.RIGHT)
+        elif move == "j":
+            c.act(Actions.SUCK)
 
 
 def main():
