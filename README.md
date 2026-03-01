@@ -2,23 +2,38 @@
 
 NUM AI
 
-I know how to use git
+- Constants
+  - Actions
+    - LEFT
+    - UP
+    - DOWN
+    - RIGHT
+    - SUCK
+  - CellState
+    - DIRTY
+    - CLEAN
 
-- Environment
-  - 2d space
-  - each cell = dirty || !dirty
+- Environment: Room
+  - Room = [[Cell]]
+    - Cell:
+      - occupied: bool
+      - state: DIRTY || CLEAN
 
-- Perception
-  - current location
-  - isCurrentLocation = dirty || !dirty
+- Cleaner
+  - Fields
+    - position
+    - battery
+    - room
+  - Perception
+    - isCurrentLocation = dirty || !dirty
 
-- Actions
-  - Suck
-  - Move
-  - NoOp
+  - Actions
+    - Suck
+    - Move
+    - NoOp
 
-- Agent Function
-  - if currentLoc == "dirty"
-    - suck()
-  - else
-    - move()
+  - Agent Function
+    - if currentLoc == "dirty"
+      - suck()
+    - else
+      - move()
